@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-card">
+    <h1>{{ title }}</h1>
+    <p>Enter the student details below.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+            </label>
+            {{ field }}
+
+            {% for error in field.errors %}
+            <small class="error">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="error">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">
+                Save Student
+            </button>
+            <a class="btn btn-secondary"
+               href="{% url 'student_list' %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
